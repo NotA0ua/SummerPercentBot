@@ -6,9 +6,12 @@ from app.database import UsersOperations
 
 router = Router()
 
+
 @router.message(CommandStart())
 async def start_handler(message: types.Message, session: AsyncSession) -> None:
     user_operations = UsersOperations(session, message.from_user.id)
-    if user_operations.get_user():
+    if not await user_operations.get_user():
         await user_operations.create_user()
-    await message.answer("Hello, this is a bot that shows you how much % of the *summer you've wasted*.\n It will send you a message every day at 00:00.")
+    await message.answer(
+        "👋 Hello, this is a bot that shows you how much % of the *summer you've wasted*.\nIt will send you a message every day at 00:00."
+    )

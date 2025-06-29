@@ -6,6 +6,7 @@ from app.database import UsersOperations
 
 router = Router()
 
+
 @router.message(Command("toggle"))
 async def toggle_handler(message: types.Message, session: AsyncSession) -> None:
     user_operations = UsersOperations(session, message.from_user.id)
@@ -14,6 +15,6 @@ async def toggle_handler(message: types.Message, session: AsyncSession) -> None:
 
     toggle = user.toggle
 
-    message_text = f"You've successfully turned *{'on' if toggle else 'off'}* the messages!"
+    message_text = f"{'✅' if toggle else '☑️'} You've successfully turned *{'on' if toggle else 'off'}* the messages!"
 
     await message.reply(message_text)

@@ -3,6 +3,7 @@ import logging
 from contextlib import suppress
 from sys import stdout
 
+from aiocron import crontab
 from aiogram import Bot, Dispatcher, types
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
@@ -13,6 +14,7 @@ from app import BOT_TOKEN
 from app.database import Database
 from app.handlers import setup_routers
 from app.middlewares import DatabaseMiddleware, ThrottlingMiddleware
+from app.utils import send_daily_message
 
 bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN))
 
@@ -35,10 +37,14 @@ async def on_startup() -> None:
     dp.message.middleware(ThrottlingMiddleware())
 
     await bot.set_my_commands(
-        [BotCommand(command="start", description="🔄 Restart a bot"),
-         BotCommand(command="toggle", description="▶️ Toggle sending messages")],
+        [
+            BotCommand(command="start", description="🔄 Restart a bot"),
+            BotCommand(command="toggle", description="▶️ Toggle sending messages"),
+        ],
         types.BotCommandScopeDefault(),
     )
+
+    crontab("0 0 * * *", func=lambda: send_daily_message(bot, db), start=True)
 
 
 async def on_shutdown() -> None:

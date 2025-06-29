@@ -28,11 +28,11 @@ class UsersOperations:
         return list(result.scalars().all())
 
     async def update_toggle(self) -> Users | None:
-        toggle = not self.get_user().toggle
+        user = await self.get_user()
         result = await self.session.execute(
             update(Users)
             .where(Users.id == self.user_id)
-            .values(toggle=toggle)
+            .values(toggle=not user.toggle)
             .returning(Users)
         )
         return result.scalar_one_or_none()

@@ -6,9 +6,6 @@ def setup_routers() -> Router:
 
     router = Router()
 
-    router.include_routers(
-        start.router,
-        toggle.router
-    )
+    router.include_routers(start.router, toggle.router)
 
     return router
