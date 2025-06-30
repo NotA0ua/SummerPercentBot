@@ -11,3 +11,4 @@ dependencies = [
     "python-dotenv>=1.1.1",
     "sqlalchemy>=2.0.41",
 ]
+readme = "README.md"
