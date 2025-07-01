@@ -15,6 +15,7 @@ from app.database import Database
 from app.handlers import setup_routers
 from app.middlewares import DatabaseMiddleware, ThrottlingMiddleware
 from app.utils import send_daily_message
+from app.utils import moscow_tz
 
 bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN))
 
@@ -44,7 +45,7 @@ async def on_startup() -> None:
         types.BotCommandScopeDefault(),
     )
 
-    crontab("0 0 * * *", func=lambda: send_daily_message(bot, db), start=True)
+    crontab("0 0 * * *", func=lambda: send_daily_message(bot, db), start=True, tz=moscow_tz)
 
 
 async def on_shutdown() -> None:

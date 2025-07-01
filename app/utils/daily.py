@@ -4,12 +4,12 @@ from datetime import datetime, timezone, timedelta
 
 from app.database import Database, UsersOperations
 
+moscow_tz = timezone(timedelta(hours=3), name="MSK")
 
 def get_summer_percents() -> float:
-    tz = timezone(timedelta(hours=3), name="MSK")
-    now = datetime.now(tz)
-    summer_start = datetime(2025, 6, 1, 0, 0, 0, tzinfo=tz)
-    summer_end = datetime(2025, 9, 1, 0, 0, 0, tzinfo=tz)
+    now = datetime.now(moscow_tz)
+    summer_start = datetime(2025, 6, 1, 0, 0, 0, tzinfo=moscow_tz)
+    summer_end = datetime(2025, 9, 1, 0, 0, 0, tzinfo=moscow_tz)
     summer = summer_end - summer_start
     difference = now - summer_start
     percents = difference.total_seconds() / (summer.total_seconds() / 100)

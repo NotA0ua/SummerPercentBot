@@ -1,1 +1,1 @@
-from .daily import send_daily_message
+from .daily import send_daily_message, moscow_tz
