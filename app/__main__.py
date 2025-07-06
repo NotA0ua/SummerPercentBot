@@ -40,12 +40,17 @@ async def on_startup() -> None:
     await bot.set_my_commands(
         [
             BotCommand(command="start", description="🔄 Restart a bot"),
+            BotCommand(
+                command="percent", description="👀 Send a message with summer percents"
+            ),
             BotCommand(command="toggle", description="▶️ Toggle sending messages"),
         ],
         types.BotCommandScopeDefault(),
     )
 
-    crontab("0 0 * * *", func=lambda: send_daily_message(bot, db), start=True, tz=moscow_tz)
+    crontab(
+        "0 0 * * *", func=lambda: send_daily_message(bot, db), start=True, tz=moscow_tz
+    )
 
 
 async def on_shutdown() -> None:

@@ -6,6 +6,7 @@ from app.database import Database, UsersOperations
 
 moscow_tz = timezone(timedelta(hours=3), name="MSK")
 
+
 def get_summer_percents() -> float:
     now = datetime.now(moscow_tz)
     summer_start = datetime(2025, 6, 1, 0, 0, 0, tzinfo=moscow_tz)
@@ -23,10 +24,14 @@ def summer_progress(percents: float, width: int, filled: str, empty: str):
     return filled * done + empty * rest + f" {percents: 2.0f}%"
 
 
-async def send_daily_message(bot: Bot, db: Database) -> None:
+def percent_message() -> str:
     percents = get_summer_percents()
     progress = summer_progress(percents, width=10, filled="🟥", empty="⬜")
+    return f"Progress of *your summer*.\n{progress}"
+
+
+async def send_daily_message(bot: Bot, db: Database) -> None:
     async with db.get_session() as session:
         users = await UsersOperations(session, 0).get_all_toggled_users()
         for user in users:
-            await bot.send_message(user.id, f"Progress of your summer.\n{progress}")
+            await bot.send_message(user.id, percent_message())

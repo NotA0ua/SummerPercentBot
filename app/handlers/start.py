@@ -13,5 +13,5 @@ async def start_handler(message: types.Message, session: AsyncSession) -> None:
     if not await user_operations.get_user():
         await user_operations.create_user()
     await message.answer(
-        "👋 Hello, this is a bot that shows you how much % of the *summer you've wasted*.\nIt will send you a message every day at 00:00."
+        "👋 Hello, this is a bot that shows you how much % of the *summer you've wasted*.\n⏰ It will send you a message every day at 00:00.\n\n👀 You can send /percent command to *show it now*!\n▶️ If you want turn off sending of the messages send /toggle command."
     )
